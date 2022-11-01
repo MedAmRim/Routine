@@ -4,9 +4,8 @@ import java.util.*;
 
 public class RenameFiles{
 
-    public static void main(String [] args){
-
-        File directory = new File("Directory Path");
+    public static List<File> ListDirectoryFiles(String directoryPath){
+        File directory = new File(directoryPath);
         List<File> directoryFiles = null;
 
         if(directory.isDirectory()){//ensured the Pathname is a directory
@@ -17,12 +16,15 @@ public class RenameFiles{
                         public boolean accept(File pathname) {
                             return pathname.isFile();//list only files, skip sub directory
                         }
-                        
                     }
                 ) );
             }
+            return directoryFiles;
+    }
 
-        directoryFiles.stream().forEach(f ->{
+    public static void RenameListFiles(List<File> listeFiles){
+
+        listeFiles.stream().forEach(f ->{
             String newFileName = f.getName()
                                .replaceAll("(.*\\.)(sql)", "$1txt");// Change the group 2 (sql) with txt (file extention)
             Path sourceFile = Paths.get(f.getAbsolutePath());// get the file path before Rename
@@ -36,6 +38,15 @@ public class RenameFiles{
             }                
         }
         );
+    }
+
+
+
+    public static void main(String [] args){
+
+        List<File> files = ListDirectoryFiles("Directory Path");
+        RenameListFiles(files);
+
     }
     
 }
