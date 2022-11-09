@@ -55,8 +55,10 @@ public class FilesManagement{
         return state;
     }
 
-    public static File createNewFile(String newFilePath){
-        return new File(newFilePath);
+    public static File createNewFile(String newFilePath) throws IOException{
+         File f = new File(newFilePath);
+         if(!f.exists()) f.createNewFile();
+         return f;
     }
 
     public static void main(String [] args){
