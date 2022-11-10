@@ -85,7 +85,7 @@ public class FilesManagement{
         int readBytes = 0;
         
         File file = createNewFile("New File Path");
-        FileOutputStream outputStream = FileOutputStream(file);
+        FileOutputStream outputStream = new FileOutputStream(file);
 
         while ((readBytes = inputStream.read(inputFileBytes)) > 0) {// PROCESSING NEXT 1024 
             for(int i = 0 ; i < readBytes ; i = i + fileRecordSize){
