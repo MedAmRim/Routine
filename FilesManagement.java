@@ -45,6 +45,7 @@ public class FilesManagement{
         new RandomAccessFile(filePath, "rw").setLength(0);
     }
 
+    // TXT FILES
     public static boolean checkNoEmptyFiles(File filePath) throws IOException{
         boolean state = true;
         BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -59,6 +60,45 @@ public class FilesManagement{
          File f = new File(newFilePath);
          if(!f.exists()) f.createNewFile();
          return f;
+    }
+
+    // Read from a txt file AND write to a txt file
+    public static void txtFilesProcessing(File txtFileToWriteTo, File txtFileToReadFrom) throws IOException{
+
+        PrintWriter writer = new PrintWriter(txtFileToWriteTo);
+        BufferedReader reader = new BufferedReader(new FileReader(txtFileToReadFrom));
+        String line;
+        //int i = reader.read(); //For reading a singlE character
+        while ((line = reader.readLine()) != null) {
+            writer.println(line);
+        }
+        reader.close();
+        writer.close();
+    }
+
+    // Read from a binary file using Record Size and write to a binary file uisng Record Size
+    public static void binaryFilesProcesing(File binaryInputFile) throws IOException{
+        int fileRecordSize = 1800; // input File Record Size
+        final int BUFFER_SIZE = 1024*fileRecordSize;
+        byte[] inputFileBytes = new byte[BUFFER_SIZE]; // read by part according to Record Size (1024 lines at a time)
+        FileInputStream inputStream =  new FileInputStream(binaryInputFile);
+        int readBytes = 0;
+        
+        File file = createNewFile("New File Path");
+        FileOutputStream outputStream = FileOutputStream(file);
+
+        while ((readBytes = inputStream.read(inputFileBytes)) > 0) {// PROCESSING NEXT 1024 
+            for(int i = 0 ; i < readBytes ; i = i + fileRecordSize){
+                byte[] record = Arrays.copyOfRange(inputFileBytes, i, i + fileRecordSize);
+                outputStream.write(record);// WRITE A LINE FROM THE 1024
+            }
+        }
+        outputStream.close();
+        inputStream.close();
+    }
+
+    private static FileOutputStream FileOutputStream(File file) {
+        return null;
     }
 
     public static void main(String [] args){
