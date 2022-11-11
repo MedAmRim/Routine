@@ -58,7 +58,7 @@ public class FilesManagement{
 
     public static File createNewFile(String newFilePath) throws IOException{
          File f = new File(newFilePath);
-         if(!f.exists()) f.createNewFile();
+         boolean exists = f.exists()  ? f.createNewFile() : true;
          return f;
     }
 
